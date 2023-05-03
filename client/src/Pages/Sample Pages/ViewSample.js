@@ -9,7 +9,7 @@ const ViewSample = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/get/${id}`).then((resp) => setUser({ ...resp.data[0] }))
+        axios.get(`http://localhost:5001/api/get/${id}`).then((resp) => setUser({ ...resp.data[0] }))
     }, [id]);
     return (
         <div style={{ marginTop: "150px" }}>

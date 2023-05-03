@@ -10,7 +10,7 @@ const SampleLanding = () => {
     const [data, setData] = useState([]);
 
     const loadData = async () => {
-        const response = await axios.get ("http://localhost:5000/api/get");
+        const response = await axios.get ("http://localhost:5001/api/get");
         setData(response.data);
     };
 
@@ -20,7 +20,7 @@ const SampleLanding = () => {
 
     const deleteUser = (id) => {
         if(window.confirm("Are you sure you want to delete your account?")){
-            axios.delete(`http://localhost:5000/api/remove/${id}`);
+            axios.delete(`http://localhost:5001/api/remove/${id}`);
             toast.success("Your Account has been successfully removed!");
             setTimeout(()=> loadData(), 500);
         }

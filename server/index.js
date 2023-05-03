@@ -32,22 +32,22 @@ app.post("/login", (req, res) => {
     const password = req.body.password;
 
     db.query(
-        
         "SELECT * FROM users WHERE username = ? AND password = ?",
          [username, password], 
         (err, result)=> {
-             if (err) {
-                res.send({err: err});
+            if (err) {
+                return res.send({err: err});
             }
     
-            if (result > 0) {
-                res.send(result);
-            }else{
-                res.send({message: "Invalid User Login"});
-            } 
+            if (result && result.length > 0) {
+                return res.send(result);
+            } else {
+                return res.send({message: "Invalid User Login"});
+            }
         }
     );
 });
+
 
 app.get("/api/get", (req, res) => {
     const sqlGet = "SELECT * FROM users;";
@@ -99,6 +99,6 @@ app.put("/api/update/:id", (req, res) => {
     });
 });
 
-app.listen(5000, () => {
+app.listen(5001, () => {
     console.log("Server is running on port 5000");
 })

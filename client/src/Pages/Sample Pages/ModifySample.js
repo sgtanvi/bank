@@ -19,7 +19,7 @@ const ModifySample = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/get/${id}`).then((resp) => setState({ ...resp[0] }))
+        axios.get(`http://localhost:5001/api/get/${id}`).then((resp) => setState({ ...resp[0] }))
     }, [id]);
 
     const handleSubmit = (e) => {
@@ -29,7 +29,7 @@ const ModifySample = () => {
         }
         else {
             if (!id) {
-                axios.post("http://localhost:5000/api/post", {
+                axios.post("http://localhost:5001/api/post", {
                     username,
                     password
                 }).then(() => {
@@ -39,7 +39,7 @@ const ModifySample = () => {
                 setTimeout(() => navigate("/"), 500)
             }
             else {
-                axios.put(`http://localhost:5000/api/update/${id}`, {
+                axios.put(`http://localhost:5001/api/update/${id}`, {
                     username,
                     password
                 }).then(() => {
