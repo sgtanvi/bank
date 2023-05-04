@@ -99,6 +99,26 @@ app.put("/api/update/:id", (req, res) => {
     });
 });
 
+
+app.post("/transfer", (req, res) => {
+    const { senderId, recipientId, amount } = req.body;
+    const sqlSender = "UPDATE users SET balance = balance - ? WHERE id = ?";
+    const sqlRecipient = "UPDATE users SET balance = balance + ? WHERE id = ?";
+
+    db.query(sqlSender, [amount, senderId], (error, result) => {
+        if (error) {
+            console.log(error);
+        }
+    });
+
+    db.query(sqlRecipient, [amount, recipientId], (error, result) => {
+        if (error) {
+            console.log(error);
+        }
+    });
+
+
+    
 app.listen(5001, () => {
     console.log("Server is running on port 5000");
 })
