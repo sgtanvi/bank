@@ -21,6 +21,8 @@ app.use(
     })
 );
 
+
+
 /* app.use('/login', (req, res) => {
     res.send({
         token: 'test123'
@@ -32,22 +34,22 @@ app.post("/login", (req, res) => {
     const password = req.body.password;
 
     db.query(
-        
         "SELECT * FROM users WHERE username = ? AND password = ?",
          [username, password], 
         (err, result)=> {
-             if (err) {
-                res.send({err: err});
+            if (err) {
+                return res.send({err: err});
             }
     
-            if (result > 0) {
-                res.send(result);
-            }else{
-                res.send({message: "Invalid User Login"});
-            } 
+            if (result && result.length > 0) {
+                return res.send(result);
+            } else {
+                return res.send({message: "Invalid User Login"});
+            }
         }
     );
 });
+
 
 app.get("/api/get", (req, res) => {
     const sqlGet = "SELECT * FROM users;";

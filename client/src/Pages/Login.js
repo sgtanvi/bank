@@ -1,81 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import './Login.css';
- 
+
 function Login() {
- 
- const [usernameReg, setUernameReg] = useState("");
- const [passwordReg, setPasswordReg] = useState ("");
- 
- const [username, setUername] = useState("");
- const [password, setPassword] = useState ("");
- 
- const [loginStatus, setLoginStatus] = useState("");
- 
- const register = () => {
-    Axios.post("http://localhost:5000/register", {
-      username: usernameReg,
-      password: passwordReg,
-    }).then((response) => {
-      console.log(response);
-    });
- };
- 
- const login = () => {
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginStatus, setLoginStatus] = useState("");
+
+  const login = () => {
     Axios.post("http://localhost:5000/login", {
       username: username,
       password: password,
     }).then((response) => {
       if (response.data.message) {
-         setLoginStatus( "fail");
+        setLoginStatus(response.data.message);
       } else {
-         setLoginStatus ("success");
+        setLoginStatus("success");
+        navigate(`/dashboard/${response.data[0].id}`);
       }
-   });
- };
- 
- return (
-    <div className="Registration">
-       <div className="registration">
-          <h1>Registration</h1>
-          <label>Username</label>
-          <input
-             type="text"
-             onChange={(e) => {
-                setUernameReg(e.target.value);
-             }}
-          /><br/>
-          <label>password</label>
-          <input 
-            type="text"
-            onChange={(e) =>{
-               setPasswordReg(e.target.value);
-            }}
-          /> <br />
-          <button onClick={register} > Register</button>
-       </div>
- 
-       <div className="login">
-           <h1>Login</h1>
-           <input
-              type="text"
-              placeholder="Username…"
-              onChange = { (e) => {
-                 setUername (e.target.value);
-              }}
-              /> <br/>
-           <input
-              type="password"
-              placeholder="Password…"
-              onChange = { (e) => {
-                 setPassword (e.target.value);
-              }}
-           />
-           <button onClick={login}>Login</button>
-       </div>
-       <h1> {loginStatus}</h1>
+    });
+  };
+
+  return (
+    <div className="Login">
+      <h1>Login</h1>
+      <input
+        type="text"
+        placeholder="Username…"
+        onChange={(e) => {
+          setUsername(e.target.value);
+        }}
+      /><br />
+      <input
+        type="password"
+        placeholder="Password…"
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
+      />
+      <button onClick={login}>Login</button>
+      <p>Don't have an account? <Link to="/register">Register</Link></p>
+      <h1>{loginStatus}</h1>
     </div>
- );
+  );
 }
 
 export default Login;
