@@ -1,7 +1,11 @@
 import express from "express"
 import mysql from "mysql"
+import cors from "cors"
 
 const app = express();
+app.use(cors());
+app.use(express.json());
+
 const  PORT = 3003;
 const db = mysql.createConnection({
     host: "localhost",
@@ -9,8 +13,6 @@ const db = mysql.createConnection({
     password: "",
     database:"bank" 
 })
-
-app.use(express.json())
 
 //localhost 3003 reads our message 
 app.get("/", (req,res)=>{
@@ -24,21 +26,35 @@ app.get("/users", (req,res)=>{
         return res.json(data)
     })
   })
+//api
 
-app.post("/users", (req,res) => {
-  const q = "INSERT INTO users (`username`, `password`, `balance`, `pin`) VALUES  (?)";
+app.post("/signUp", (req,res) => {
+  const q = "INSERT INTO users (`username`, `password`, `pin`) VALUES  (?)";
   const values = [
     req.body.username,
     req.body.password,
-    req.body.balance,
     req.body.pin
   ];
+
   db.query(q, [values], (err, data) => {
     if (err) return res.json(err);
     return res.json("");
   });
 });
+app.post("/login", (req,res) => {
+  const q = "SELECT * FROM users WHERE `username` = ? AND `password` = ?";
+  db.query(q, [req.body.username, req.body.password], (err, data) => {
+    if (err) { 
+      return res.json("Error"); 
+    }
+    if (data.length > 0) {
+      return res.json("succes");
+    }else {
+      return res.json("Fail");
 
+    }
+  });
+});
 
 app.listen(PORT, ()=>{
     console.log("connected to backend!")
