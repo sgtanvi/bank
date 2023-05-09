@@ -3,7 +3,8 @@ import Axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
 function Dashboard() {
-  const {username} = useParams();
+  const {username} = useParams(); //Tried naming variable "ID" (This value is the User ID from the URL) but anything but "username" causes problems)
+
 
   const [user, setUser] = useState({});
 
