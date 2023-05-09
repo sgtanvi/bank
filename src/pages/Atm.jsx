@@ -10,7 +10,7 @@ render() {
 
   let transactionHistory = (
    <div>
-    {this.props.transactionHistory.map((log) => { return <li>{log.transactionType} ${log.amount} | closing balance: ${log.newBalance} | {log.date} </li> })} 
+    {this.props.transactionHistory.map((log, index) => { return <li key={index}>{log.transactionType} ${log.amount} | closing balance: ${log.newBalance} | {log.date} </li> })} 
    </div>
   )
 

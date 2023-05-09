@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import './DashboardForm.css';
 import Bank from "../Bank/Bank";
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
+
 //import {useState} from "react";
 
 class Main extends Component {
@@ -24,11 +26,9 @@ render() {
 
       <h1>Balance: {this.props.balance}</h1>
 
-      <div className="atm">    
-        <h2>ATM Machine</h2>
-        <button className="mainbtn" onClick={() => this.props.withdraw(50)}>Withdraw $50</button>
-        <button className="mainbtn" onClick={() => this.props.withdraw(100)}>Withdraw $100</button>
-      </div>
+      <button>
+        <Link to="/atm">Go to ATM</Link>
+      </button>
 
       <Bank />
 

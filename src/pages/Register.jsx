@@ -21,7 +21,7 @@ const Register = () => {
             name:"username",
             type:"text",
             placeholder:"Username",
-            errorMessage:"Username should be 3-16 characters and shouldn't include any special character!",
+            errorMessage:"Username should be 3-16 characters and shouldn't include any numbers or special character!",
             label:"Username",
             pattern: "^[A-Za-z]{3,16}$",
             required: true,
@@ -33,7 +33,7 @@ const Register = () => {
             placeholder:"Password",
             errorMessage:"Password should be 8-20 characters and must include 1 letter 1 number and 1 special character!",
             label:"Password",
-            pattern: "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,20}$",
+            pattern: "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*;])[A-Za-z0-9!@#$%^&*;]{8,20}$",
             required: true,
         },
         {
@@ -64,7 +64,7 @@ const Register = () => {
         try {
             //what if our end point change
             await axios.post("http://localhost:3003/users", values)
-            navigate("/register")
+            navigate("/atm")
         } catch (err) {
             console.log(err)
         }
