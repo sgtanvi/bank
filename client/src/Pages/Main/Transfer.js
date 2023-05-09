@@ -1,68 +1,103 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import Axios from 'axios';
 import "./Transfer.css";
 
 
-export default function Transfer() {
+export default function Transfer(props) {
+  const {username} = useParams();
+  const [recipient, setRecipient] = useState("");
+  const [amount, setAmount] = useState("");
+  
+  const [user, setUser] = useState({});
+  const [user2, setUser2] = useState({});
 
-  /* const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!username || !password) {
-        toast.error("Please provide value into each input field");
-    }
-    else {
-        if (!id) {
-            axios.post("http://localhost:5000/api/post", {
-                username,
-                password
-            }).then(() => {
-                setState({ username: "", password: "" })
-            }).catch((err) => toast.error(err.response.data));
-            toast.success("Registration Successful!");
-            setTimeout(() => navigate("/"), 500)
-        }
-        else {
-            axios.put(`http://localhost:5000/api/update/${id}`, {
-                username,
-                password
-            }).then(() => {
-                setState({ username: "", password: "" })
-            }).catch((err) => toast.error(err.response.data));
-            toast.success("Updated Successful!");
-            setTimeout(() => navigate("/"), 500)
-        }
-    }
-};
+  useEffect(() => {
+    Axios.get(`http://localhost:5000/api/get/${username}`).then((response) => setUser({ ...response.data[0] }))
+  }, [username]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setState({ ...state, [name]: value });
-};
- */
+  useEffect(() => {
+    Axios.get(`http://localhost:5000/api/getuser/${recipient}`).then((resp) => setUser2({ ...resp.data[0] }))
+  }, [recipient]);
+
+  const handleRecipientChange = (event) => {
+    setRecipient(event.target.value);
+  }
+
+  const handleAmountChange = (event) => {
+    setAmount(event.target.value);
+  }
+
+  const handlePaySubmit = (event) => {
+    event.preventDefault();
+    console.log(`Paying ${amount} to ${recipient}`);
+  
+    Axios.post('http://localhost:5000/api/transferpull', {
+      senderId: user.id,
+      amount: amount
+    }).then(response => {
+      console.log(response.data);
+      // TODO: handle success response
+    }).catch(error => {
+      console.log(error);
+      // TODO: handle error response
+    });
+
+    Axios.post('http://localhost:5000/api/transferadd', {
+      recipientId: user2.id,
+      amount: amount
+    }).then(response => {
+      console.log(response.data);
+      // TODO: handle success response
+    }).catch(error => {
+      console.log(error);
+      // TODO: handle error response
+    });
+  }
+
+  const handleRequestSubmit = (event) => {
+    event.preventDefault();
+    console.log(`Requesting ${amount} from ${recipient}`);
+  
+    Axios.post('http://localhost:5000/request', {
+      requesterId: user.id,
+      recipientId: user2.id,
+      amount: amount
+    }).then(response => {
+      console.log(response.data);
+      // TODO: handle success response
+    }).catch(error => {
+      console.log(error);
+      // TODO: handle error response
+    });
+  }
+
   return (
-    <div style={{ marginTop: "150px" }} /* onSubmit={handleSubmit} */>
+    <div style={{ marginTop: "150px" }}>
       <h1> Pay or Request </h1>
 
-      <label> Recipient: </label>
-      <input
-        type="text"
-        id="User"
-        name="User"
-        //onChange={handleInputChange}
-      />
-      <br></br>
-      <label> Amount: </label>
-      <input
-        type="text"
-        id="Amount"
-        name="Amount"
-        //onChange={handleInputChange}
-      />
-
-      <br></br>
-
-      <input type="button" value="Pay" />
-      <input type="button" value="Request" />
+      <form>
+        <label> Recipient: </label>
+        <input
+          type="text"
+          id="User"
+          name="User"
+          value={recipient}
+          onChange={handleRecipientChange}
+        />
+        <br></br>
+        <label> Amount: </label>
+        <input
+          type="text"
+          id="Amount"
+          name="Amount"
+          value={amount}
+          onChange={handleAmountChange}
+        />
+        <br></br>
+        <button type="submit" onClick={handlePaySubmit}>Pay</button>
+        <button type="submit" onClick={handleRequestSubmit}>Request</button>
+      </form>
 
       <div>
         <Link to="/">
@@ -71,6 +106,6 @@ export default function Transfer() {
       </div>
 
     </div>
-
+    
   );
 }

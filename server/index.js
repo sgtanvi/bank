@@ -21,13 +21,29 @@ app.use(
     })
 );
 
+app.get("/users", (req, res) => {
+    const q = "SELECT * FROM users"
+    db.query(q, (err, data) => {
+        if (err) return res.json(err)
+        return res.json(data)
+    })
+})
 
+app.post("/users", (req, res) => {
+    const q = "INSERT INTO users (username, password, pin) VALUES  (?)";
+    const values = [
+        req.body.username,
+        req.body.password,
+        req.body.pin
+    ];
 
-/* app.use('/login', (req, res) => {
-    res.send({
-        token: 'test123'
+    db.query(q, [values], (err, data) => {
+        if (err) return res.json(err);
+        return res.json("");
     });
-}); */
+
+    console.log(res)
+});
 
 app.post("/login", (req, res) => {
     const username = req.body.username;
@@ -35,16 +51,16 @@ app.post("/login", (req, res) => {
 
     db.query(
         "SELECT * FROM users WHERE username = ? AND password = ?",
-         [username, password], 
-        (err, result)=> {
+        [username, password],
+        (err, result) => {
             if (err) {
-                return res.send({err: err});
+                return res.send({ err: err });
             }
-    
+
             if (result && result.length > 0) {
                 return res.send(result);
             } else {
-                return res.send({message: "Invalid User Login"});
+                return res.send({ message: "Invalid User Login" });
             }
         }
     );
@@ -89,6 +105,17 @@ app.get("/api/get/:id", (req, res) => {
     });
 });
 
+app.get("/api/getuser/:username", (req, res) => {
+    const { username } = req.params;
+    const sqlGet = "SELECT * FROM users WHERE username = ?";
+    db.query(sqlGet, username, (error, result) => {
+        if (error) {
+            console.log(error);
+        }
+        res.send(result);
+    });
+});
+
 app.put("/api/update/:id", (req, res) => {
     const { id } = req.params;
     const { username, password } = req.body
@@ -98,6 +125,37 @@ app.put("/api/update/:id", (req, res) => {
             console.log(error);
         }
         res.send(result);
+    });
+});
+
+app.post("/api/transferpull", (req, res) => {
+    const { senderId, amount } = req.body;
+    const sqlSender =
+        "UPDATE users SET money = money - ? WHERE id = ?;";
+
+    db.query(sqlSender, [amount, senderId], (error, result) => {
+        if (error) {
+            console.log(error);
+        }
+        else{
+            console.log(req.body);
+        }
+    });
+
+});
+
+app.post("/api/transferadd", (req, res) => {
+    const {recipientId, amount } = req.body;
+    const sqlRecipient =
+        "UPDATE users SET money = money + ? WHERE id = ?;";
+
+    db.query(sqlRecipient, [amount, recipientId], (error, result) => {
+        if (error) {
+            console.log(error);
+        }
+        else{
+            console.log(recipientId);
+        }
     });
 });
 

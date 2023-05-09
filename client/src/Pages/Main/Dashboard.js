@@ -16,13 +16,13 @@ function Dashboard() {
       <div class="input-color">
         <h1>Welcome {user.username}!</h1>
       </div>
-      <p>Account Number #...{(user.accnum)%10000}</p>
+      <p>Account Number #...{(100000000000+(user.id))%10000}</p>
       <p>Your current balance is ${user.money}</p>
       <div>
         <Link to="/deposit">Deposit</Link>
-        <Link to="/transfer">Transfer</Link>
-        <Link to="/accountinfo">Account Info</Link>
-        <Link to="/PIN">Change PIN</Link>
+        <Link to={`/transfer/${username}`}>Transfer</Link>
+        <Link to={`/accountinfo/${username}`}>Account Info</Link>
+        <Link to={`/PIN${username}`}>Change PIN</Link>
       </div>
     </div>
   );

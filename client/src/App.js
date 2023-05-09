@@ -25,7 +25,7 @@ function App() {
           <Route path="/register" element={<Registration />} />
           <Route path="/dashboard/:username" element={<Dashboard />} />
           <Route path="/deposit" element={<Deposit />} />
-          <Route path="/transfer" element={<Transfer />} />
+          <Route path="/transfer/:username" element={<Transfer />} />
           <Route path="/accountinfo" element={<AccountInfo />} />
           <Route path="/PIN" element={<PIN />} />
         </Routes>
