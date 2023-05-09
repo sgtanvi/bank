@@ -5,7 +5,8 @@ import "./Transfer.css";
 
 
 export default function Transfer(props) {
-  const {username} = useParams();
+  const {username} = useParams(); //Tried naming variable "ID" (This value is the User ID from the URL) but anything but "username" causes problems)
+
   const [recipient, setRecipient] = useState("");
   const [amount, setAmount] = useState("");
   
