@@ -23,7 +23,14 @@ function Dashboard({ location }) {
       <p>Your current balance is ${balance}</p>
       <div>
         <Link to="/deposit">Deposit</Link>
-        <Link to="/transfer">Transfer</Link>
+        <Link
+          to={{
+            pathname: "/transfer",
+            state: { userID: userID }
+          }}
+        >
+          Transfer
+        </Link>
         <Link to="/accountinfo">Account Info</Link>
         <Link to="/PIN">Change PIN</Link>
       </div>

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import "./Transfer.css";
 
 
-export default function Transfer() {
+export default function Transfer(props) {
   const [recipient, setRecipient] = useState("");
   const [amount, setAmount] = useState("");
 
@@ -18,13 +19,35 @@ export default function Transfer() {
   const handlePaySubmit = (event) => {
     event.preventDefault();
     console.log(`Paying ${amount} to ${recipient}`);
-    // TODO: Implement payment logic here
+  
+    axios.post('/transfer', {
+      senderId: props.location.state.userID,
+      recipientId: recipient,
+      amount: amount
+    }).then(response => {
+      console.log(response.data);
+      // TODO: handle success response
+    }).catch(error => {
+      console.log(error);
+      // TODO: handle error response
+    });
   }
 
   const handleRequestSubmit = (event) => {
     event.preventDefault();
     console.log(`Requesting ${amount} from ${recipient}`);
-    // TODO: Implement request logic here
+  
+    axios.post('/request', {
+      requesterId: props.location.state.userID,
+      recipientId: recipient,
+      amount: amount
+    }).then(response => {
+      console.log(response.data);
+      // TODO: handle success response
+    }).catch(error => {
+      console.log(error);
+      // TODO: handle error response
+    });
   }
 
   return (
