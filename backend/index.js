@@ -1,6 +1,9 @@
 import express from "express"
 import mysql from "mysql"
 import cors from "cors"
+//import dotenv from 'dotenv';
+
+//dotenv.config({ path: "./.env"});
 
 const app = express();
 app.use(cors());
@@ -9,11 +12,13 @@ app.use(express.json());
 const  PORT = 3003;
 
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database:"bank" 
-})
+    host: "localhost", 
+    user: "root", 
+    password: "", 
+    database: "bank"
+});
+
+//app.set("view engine", "hbs");
 
 //localhost 3003 reads our message from this page backend server
 app.get("/", (req,res)=>{
@@ -35,7 +40,7 @@ app.post("/users", (req,res) => {
   const values = [
     req.body.username,
     req.body.password,
-    req.body.pin
+    req.body.pin,
   ];
 
   db.query(q, [values], (err, data) => {
@@ -43,6 +48,17 @@ app.post("/users", (req,res) => {
     return res.json("");
   });
 }); 
+
+app.delete("/users/:id", (req,res)=>{
+  const userId = req.params.id;
+  const q = "DELETE FROM users WHERE id = ?"
+
+  db.query(q,[userId], (err,data)=>{
+    if (err) return res.json(err);
+    return res.json("Deleted");
+  })
+})
+
 /*
 app.post("/login", (req,res) => {
   const q = "SELECT * FROM users WHERE `id` = ? AND `username` = ? AND `password` = ?";
