@@ -4,13 +4,16 @@ import "./register.css"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const [formErrors, setFormErrors] = useState();
+
 const Register = () => {
     // to reach the values object inside register boxes cuz its object ({})
     const [values, setValues] = useState({
         username:"",
         password:"",
         pin:"",
-    })
+       // email:"",
+    });
 
     const navigate = useNavigate()
 
@@ -46,17 +49,55 @@ const Register = () => {
             pattern:"^[0-9]{4}$",
             required: true,
         }
+       /* {
+            id:4,
+            name:"email",
+            type:"text",
+            placeholder:"E-mail",
+            errorMessage:"Enter a valid E-mail",
+            label:"E-mail",
+            pattern:"/^[A-Z0-9. _%+-]+@[A-Z0-9.]+$/i",
+            required: true,
+        }*/
     ]
   // Saving as FormData in congole log when submit 
     const handleSubmit = (e) => {
         e.preventDefault();
+            let errors = {};
+            let hasErrors = false;
+        
+            // loop through inputs and validate
+            inputs.forEach((input) => {
+                const value = values[input.name];
+                const pattern = new RegExp(input.pattern);
+                const isValid = pattern.test(value);
+        
+                if (!isValid) {
+                    errors[input.name] = input.errorMessage;
+                    hasErrors = true;
+                }
+            });
+        
+            // set form errors
+            setFormErrors(errors);
+        
+            // if there are errors, don't submit form
+            if (hasErrors) {
+                return;
+            }
+        
+            /*  const data = new FormData(e.target)
+            console.log(Object.fromEntries(data.entries()))*/
+        
+            };
+        }
 
   /*  const data = new FormData(e.target)
     console.log(Object.fromEntries(data.entries()))*/
 
-    };
     const onChange = (e) => {
         setValues({...values, [e.target.name]: e.target.value });
+
     }
    
     const handleClick = async e =>{
@@ -64,7 +105,7 @@ const Register = () => {
         try {
             //what if our end point change
             await axios.post("http://localhost:3003/users", values)
-            navigate("/atm")
+            navigate("/")
         } catch (err) {
             console.log(err)
         }

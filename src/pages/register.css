@@ -28,3 +28,6 @@ button {
     margin-bottom: 30px;
     
 } 
+.delete {
+    cursor: pointer;
+}
