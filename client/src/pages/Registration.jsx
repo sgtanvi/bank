@@ -87,13 +87,13 @@ const Registration = () => {
                 toast.error("Invalid PIN")
             }
             else {
-                var valid = true;
+                var valid = 1;
 
                 axios.post("http://localhost:5000/regusercheck", {
                     Username: values.username,
                 }).then((response) => {
                     if (response.data.message) {
-                        valid = false;
+                        valid = 0;
                         toast.error(response.data.message);
                     }
                 });
@@ -102,7 +102,7 @@ const Registration = () => {
                     Password: values.password,
                 }).then((response) => {
                     if (response.data.message) {
-                        valid = false;
+                        valid = 0;
                         toast.error(response.data.message);
                     }
                 });
@@ -111,15 +111,15 @@ const Registration = () => {
                     PIN: values.pin,
                 }).then((response) => {
                     if (response.data.message) {
-                        valid = false;
+                        valid = 0;
                         toast.error(response.data.message);
                     }
                 });
 
-                if (!valid) {
+                if (valid === 1) {
                     try {
                         //what if our end point change
-                        await axios.post("http://localhost:5000/users", values)
+                        await axios.post("http://localhost:5000/api/users", values)
                         navigate("/")
                     } catch (err) {
                         console.log(err)

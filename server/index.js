@@ -29,14 +29,13 @@ app.get("/users", (req,res)=>{
     })
   })
 
-//api -sending user desc.
-app.post("/users", (req,res) => {
-  const q = "INSERT INTO users (`username`, `password`, `pin`) VALUES  (?)";
-  const values = [
-    req.body.username,
-    req.body.password,
-    req.body.pin
-  ];
+app.post("/api/users", (req, res) => {
+    const q = "INSERT INTO users (username, password, pin) VALUES  (?)";
+    const values = [
+        req.body.username,
+        req.body.password,
+        req.body.pin
+    ];
 
     db.query(q, [values], (err, data) => {
         if (err) return res.json(err);
