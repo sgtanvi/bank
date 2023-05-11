@@ -142,8 +142,6 @@ const Registration = () => {
                 ))}
                 <button onClick={handleClick}>Submit</button>
             </form>
-
-            <br></br>
             <Link to={"/login"}><button>Exit</button></Link>
 
         </div>

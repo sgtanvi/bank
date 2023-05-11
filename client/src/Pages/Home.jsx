@@ -10,14 +10,10 @@ export default function Home() {
 
       <div>
         <label> Log In to Online Banking:</label>
-        <Link to={`/login`}>
-          <input type="button" value="Login" />
-        </Link>
+        <Link to={"/login"}><button>Login</button></Link>
 
         <label> Withdraw from the ATM:</label>
-        <Link to={`/ATM-landing`}>
-          <input type="button" value="ATM" />
-        </Link>
+        <Link to={"/ATMLanding"}><button>ATM</button></Link>
       </div>
 
     </div>

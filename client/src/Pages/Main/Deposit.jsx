@@ -43,7 +43,7 @@ export default function Deposit() {
 
   return (
     <div style={{ marginTop: "150px" }}>
-      <h1> ATM: Withdraw Money </h1>
+      <h1> Deposit </h1>
 
       <form>
         <h3> How much would you like to deposit?: </h3>
