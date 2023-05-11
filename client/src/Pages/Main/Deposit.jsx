@@ -20,6 +20,9 @@ export default function Deposit() {
     if (amount <= 0) {
       toast.error("Please enter a value greater than 0!");
     }
+    else if (!/^\d+$/.test(amount)){
+      toast.error("Please enter a number!");
+    }
     else {
       Axios.post('http://localhost:5000/api/deposit', {
         userId: username,

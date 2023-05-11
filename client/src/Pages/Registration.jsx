@@ -2,7 +2,7 @@ import axios from "axios";
 import FormInput from "./FormInput";
 import "./Registration.css"
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Registration = () => {
@@ -78,24 +78,56 @@ const Registration = () => {
                 || /\d/.test(values.username) || /[!@#$%^&*;]/.test(values.username)) {
                 toast.error("Invalid Username")
             }
-            else if (values.password.length < 8 || values.password.length > 20 
-                ||!/[A-Z]/.test(values.password) || !/\d/.test(values.password) || !/[!@#$%^&*;]/.test(values.password)) {
+            else if (values.password.length < 8 || values.password.length > 20
+                || !/[A-Z]/.test(values.password) || !/\d/.test(values.password) || !/[!@#$%^&*;]/.test(values.password)) {
                 toast.error("Invalid password")
             }
-            else if (values.pin.length !== 4 
+            else if (values.pin.length !== 4
                 || isNaN(values.pin[0]) || isNaN(values.pin[1]) || isNaN(values.pin[2]) || isNaN(values.pin[3])) {
                 toast.error("Invalid PIN")
             }
             else {
-                try {
-                    //what if our end point change
-                    await axios.post("http://localhost:5000/users", values)
-                    navigate("/")
-                } catch (err) {
-                    console.log(err)
+                var valid = true;
+
+                axios.post("http://localhost:5000/regusercheck", {
+                    Username: values.username,
+                }).then((response) => {
+                    if (response.data.message) {
+                        valid = false;
+                        toast.error(response.data.message);
+                    }
+                });
+
+                axios.post("http://localhost:5000/regpasscheck", {
+                    Password: values.password,
+                }).then((response) => {
+                    if (response.data.message) {
+                        valid = false;
+                        toast.error(response.data.message);
+                    }
+                });
+
+                axios.post("http://localhost:5000/regpincheck", {
+                    PIN: values.pin,
+                }).then((response) => {
+                    if (response.data.message) {
+                        valid = false;
+                        toast.error(response.data.message);
+                    }
+                });
+
+                if (!valid) {
+                    try {
+                        //what if our end point change
+                        await axios.post("http://localhost:5000/users", values)
+                        navigate("/")
+                    } catch (err) {
+                        console.log(err)
+                    }
                 }
+
             }
-            
+
         }
     }
 
@@ -110,6 +142,10 @@ const Registration = () => {
                 ))}
                 <button onClick={handleClick}>Submit</button>
             </form>
+
+            <br></br>
+            <Link to={"/login"}><button>Exit</button></Link>
+
         </div>
 
     )

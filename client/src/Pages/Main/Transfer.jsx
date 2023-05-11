@@ -39,6 +39,9 @@ export default function Transfer() {
     else if (amount <= 0) {
       toast.error("Please enter a value greater than 0!");
     }
+    else if (!/^\d+$/.test(amount)){
+      toast.error("Please enter a number!");
+    }
     else if(amount > user.money){
       toast.error("You do not have enough money!");
     }
@@ -80,6 +83,9 @@ export default function Transfer() {
     }
     else if (amount <= 0) {
       toast.error("Please enter a value greater than 0!");
+    }
+    else if (!/^\d+$/.test(amount)){
+      toast.error("Please enter a number!");
     }
     else if(amount > user2.money){
       toast.error(`${user2.username} does not have enough money...`);

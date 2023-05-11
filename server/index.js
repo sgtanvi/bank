@@ -45,6 +45,60 @@ app.post("/users", (req, res) => {
     console.log(res)
 });
 
+app.post("/regusercheck", (req, res) => {
+    const username = req.body.Username;
+
+    db.query(
+        "SELECT * FROM users WHERE username = ?",
+        [username],
+        (err, result) => {
+            if (err) {
+                return res.send({ err: err });
+            }
+
+            if (result && result.length > 0) {
+                return res.send({ message: "Username already in use" });
+            }
+        }
+    );
+});
+
+app.post("/regpasscheck", (req, res) => {
+    const password = req.body.Password;
+
+    db.query(
+        "SELECT * FROM users WHERE password = ?",
+        [password],
+        (err, result) => {
+            if (err) {
+                return res.send({ err: err });
+            }
+
+            if (result && result.length > 0) {
+                return res.send({ message: "Password already in use" });
+            }
+        }
+    );
+});
+
+app.post("/regpincheck", (req, res) => {
+    const pin = req.body.PIN;
+
+    db.query(
+        "SELECT * FROM users WHERE pin = ?",
+        [pin],
+        (err, result) => {
+            if (err) {
+                return res.send({ err: err });
+            }
+
+            if (result && result.length > 0) {
+                return res.send({ message: "PIN already in use" });
+            }
+        }
+    );
+});
+
 app.post("/login", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -87,15 +141,15 @@ app.post("/ATMlogin", (req, res) => {
     );
 });
 
-app.delete("/users/:id", function(req, res) {
+app.delete("/users/:id", function (req, res) {
     const userId = req.params.id;
     const q = "DELETE FROM users WHERE id = ?";
-  
-    db.query(q, [userId], function(err, data) {
-  if (err) return res.json(err);
-  return res.json("Deleted");
+
+    db.query(q, [userId], function (err, data) {
+        if (err) return res.json(err);
+        return res.json("Deleted");
     });
-  });
+});
 
 app.get("/api/get/:id", (req, res) => {
     const { id } = req.params;
@@ -128,7 +182,7 @@ app.post("/api/transferpull", (req, res) => {
         if (error) {
             console.log(error);
         }
-        else{
+        else {
             console.log(req.body);
         }
     });
@@ -136,7 +190,7 @@ app.post("/api/transferpull", (req, res) => {
 });
 
 app.post("/api/transferadd", (req, res) => {
-    const {recipientId, amount } = req.body;
+    const { recipientId, amount } = req.body;
     const sqlRecipient =
         "UPDATE users SET money = money + ? WHERE id = ?;";
 
@@ -144,7 +198,7 @@ app.post("/api/transferadd", (req, res) => {
         if (error) {
             console.log(error);
         }
-        else{
+        else {
             console.log(recipientId);
         }
     });
@@ -159,7 +213,7 @@ app.post("/api/requestpull", (req, res) => {
         if (error) {
             console.log(error);
         }
-        else{
+        else {
             console.log(req.body);
         }
     });
@@ -167,7 +221,7 @@ app.post("/api/requestpull", (req, res) => {
 });
 
 app.post("/api/requestadd", (req, res) => {
-    const {requesterId, amount } = req.body;
+    const { requesterId, amount } = req.body;
     const sqlRecipient =
         "UPDATE users SET money = money + ? WHERE id = ?;";
 
@@ -175,7 +229,7 @@ app.post("/api/requestadd", (req, res) => {
         if (error) {
             console.log(error);
         }
-        else{
+        else {
             console.log(`Test: ${requesterId}`);
         }
     });
@@ -190,7 +244,7 @@ app.post("/api/withdraw", (req, res) => {
         if (error) {
             console.log(error);
         }
-        else{
+        else {
             console.log(req.body);
         }
     });
@@ -206,7 +260,7 @@ app.post("/api/deposit", (req, res) => {
         if (error) {
             console.log(error);
         }
-        else{
+        else {
             console.log(req.body);
         }
     });

@@ -26,6 +26,12 @@ export default function ATM() {
         if (amount <= 0) {
             toast.error("Please enter a value greater than 0!");
         }
+        else if (!/^\d+$/.test(amount)){
+            toast.error("Please enter a number!");
+          }
+        else if (user.money < amount){
+            toast.error("You don't have enough money in your account!");
+          }
         else {
             Axios.post('http://localhost:5000/api/withdraw', {
                 userId: user.id,
