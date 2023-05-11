@@ -2,16 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
+//Import everything we need to hook up Redux
+import reducer from './store/reducer';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+
+//Here we create our store
+//A store holds the whole state tree of the application
+const store = createStore(reducer);
+
+//Store and provider added below, wrapping our app, which gives global access to app
+//ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>
+  </Provider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// Create actions with names
+// Dispatch you actions into the reducer
