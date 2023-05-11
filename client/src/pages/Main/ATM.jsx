@@ -63,12 +63,12 @@ export default function ATM() {
                     value={amount}
                     onChange={handleAmountChange}
                 />
-                <button type="submit" onClick={handleWithdrawalSubmit}>Withdraw</button>
+                <button type="submit" id="submitButton" onClick={handleWithdrawalSubmit}>Withdraw</button>
             </form>
 
             <div>
                 <Link to={`/ATM-landing`}>
-                    <input type="button" value="Exit" />
+                    <input type="button" id="exitButton" value="Exit" />
                 </Link>
             </div>
 
