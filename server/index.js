@@ -29,7 +29,7 @@ app.get("/users", (req, res) => {
     })
 })
 
-app.post("/users", (req, res) => {
+app.post("/api/users", (req, res) => {
     const q = "INSERT INTO users (username, password, pin) VALUES  (?)";
     const values = [
         req.body.username,

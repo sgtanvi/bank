@@ -36,6 +36,9 @@ export default function Transfer() {
     if(!user2.id){
       toast.error(`${recipient} is not a registered user...`);
     }
+    else if(user.id = user2.id){
+      toast.error(`Please enter a user other than yourself...`)
+    }
     else if (amount <= 0) {
       toast.error("Please enter a value greater than 0!");
     }
