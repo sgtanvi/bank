@@ -4,6 +4,14 @@ const cors = require('cors');
 const app = express();
 const mysql = require('mysql2');
 
+
+
+////////////////////////////////////////Tanvi
+const fileUpload = require('express-fileupload');
+const fs = require('fs');
+app.use(fileUpload());
+//////////////////////////////////////
+
 const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
@@ -251,6 +259,60 @@ app.post("/api/withdraw", (req, res) => {
 
 });
 
+////////////////////////////////////Tanvi
+
+app.post("/api/deposit", (req, res) => {
+    const { userId, amount } = req.body;
+    const imageFile = req.files.image;
+  
+    // Check if required data is provided
+    if (!userId || !amount || !imageFile) {
+      return res.status(400).send("Please provide all the required data");
+    }
+  
+    // Check if amount is a number greater than 0
+    if (isNaN(amount) || amount <= 0) {
+      return res.status(400).send("Please provide a valid amount");
+    }
+  
+    // Save the image file to the server
+    const fs = require('fs');
+    const fileName = `${userId}_${Date.now()}_${Math.floor(Math.random() * 10000)}.jpg`;
+    const filePath = `D:/Jaime's Files/VS Code Projects/Bank application/images/${fileName}`;
+  
+    imageFile.mv(filePath, function(err) {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("Failed to upload image");
+      }
+  
+      console.log("Image uploaded successfully");
+  
+      // Save the deposit transaction to the database
+      const sqlSender = "UPDATE users SET money = money + ? WHERE id = ?;";
+      db.query(sqlSender, [amount, userId], (error, result) => {
+        if (error) {
+          console.log(error);
+          return res.status(500).send("Failed to save deposit transaction");
+        }
+  
+        console.log(result);
+        return res.status(200).send("Deposit successful");
+      });
+    });
+  });
+///////////////////////////////////////  
+
+
+
+
+
+
+
+
+/////////////////////////////////JAIME 
+/*
+
 app.post("/api/deposit", (req, res) => {
     const { userId, amount } = req.body;
     const sqlSender =
@@ -265,7 +327,7 @@ app.post("/api/deposit", (req, res) => {
         }
     });
 
-});
+});*/
 
 app.listen(5000, () => {
     console.log("Server is running on port 5000");

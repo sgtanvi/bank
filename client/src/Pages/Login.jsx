@@ -50,6 +50,7 @@ function Login() {
         }}
       />
       <br></br>
+      <br></br>
       <button onClick={login}>Login</button>
       <p>Don't have an account? <Link to="/register">Register</Link></p>
       <h1>{loginStatus}</h1>

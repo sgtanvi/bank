@@ -12,7 +12,7 @@
     font-family: inherit;
     background-color: #dfd5d5;
     box-shadow: 7px 6px 20px 1px rgba(0, 0, 0, 0.24);
-     cursor: pointer; 
+    cursor: pointer; 
     transition:  0.25s;
     color: rgba(35, 105, 184, 0.87);
   
@@ -137,4 +137,23 @@
          #f5ba55ca 40%, #f5ba55b4 60%, 
         #a8d2f6 80%);
   }
-  
+
+  .form{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px
+  }
+  .register-button:hover {
+    background-color: #3e8e41;
+  }
+  .register a {
+    text-decoration: none;
+    color: #4CAF50;
+    margin-top: 20px;
+  }
+  .registration-button{
+
+    width: 450px;
+    height: 50px;
+  }

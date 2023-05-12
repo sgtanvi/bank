@@ -53,6 +53,15 @@ export default function ATM() {
     return (
         <div style={{ marginTop: "150px" }}>
             <h1> ATM: Withdraw Money </h1>
+            <div className = "cardcontainer">
+                <div className = "card">
+                    <h3 className ="cardheader">Available Balance:</h3>
+                    <h2 className = "cardheader">${user.money}</h2>
+                    <br/>
+                    <h3 className = "cardheader">Account Number: (....{user.id})<br/> </h3>
+                </div>
+                
+            </div>
 
             <form>
                 <h3> How much would you like to withdraw?: </h3>
